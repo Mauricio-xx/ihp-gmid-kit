@@ -21,8 +21,13 @@ import argparse
 from pathlib import Path
 
 import numpy as np
+import matplotlib.pyplot as plt
 from mosplot.plot import Mosfet, Expression, load_lookup_table
 from mosplot.plot.util import evaluate_expression
+
+# Configure matplotlib for high-quality output
+plt.rcParams['figure.dpi'] = 300
+plt.rcParams['savefig.dpi'] = 300
 
 
 def create_gm_density_expression(width: float) -> Expression:

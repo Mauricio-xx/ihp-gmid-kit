@@ -1,6 +1,9 @@
-# Generated plots (not data)
+# Generated plots (regenerable)
 tutorials/*/plots/
-*.png
+src/ihp_gmid/design_charts/
+
+# Include pre-generated design charts
+!examples/design_charts/*.png
 
 # Python
 __pycache__/
