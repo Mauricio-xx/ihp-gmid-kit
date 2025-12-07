@@ -27,7 +27,11 @@ import argparse
 from mosplot.lookup_table_generator import LookupTableGenerator
 from mosplot.lookup_table_generator.simulators import NgspiceSimulator
 
-from .sweep_config import nmos_sweep, pmos_sweep
+# Handle both module import and direct script execution
+try:
+    from .sweep_config import nmos_sweep, pmos_sweep
+except ImportError:
+    from sweep_config import nmos_sweep, pmos_sweep
 
 
 def get_pdk_root():

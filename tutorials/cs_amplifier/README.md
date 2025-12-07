@@ -149,7 +149,7 @@ python design_script.py
 python design_script.py --gmid 12
 
 # Specify data directory
-python design_script.py --data-dir ../ihp_sg13g2_data
+python design_script.py --data-dir ../../data
 ```
 
 ### Output
