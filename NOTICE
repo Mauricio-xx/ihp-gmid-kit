@@ -1,0 +1,12 @@
+IHP gm/ID Design Kit
+Copyright 2024 IHP gm/ID Kit Contributors
+
+This product includes software developed by:
+
+- mosplot (https://github.com/medwatt/gmid)
+  Copyright medwatt
+  Licensed under the Apache License, Version 2.0
+  See vendor/mosplot/LICENSE for the full license text.
+
+The IHP SG13G2 PDK integration, tutorials, and design scripts were developed
+independently and are original works of this project.
