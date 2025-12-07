@@ -4,7 +4,7 @@ Analog IC design toolkit using the gm/ID methodology for the **IHP SG13G2 130nm 
 
 ## Features
 
-- **Pre-generated lookup tables** for sg13_lv_nmos and sg13_lv_pmos
+- **Lookup table generator** with comprehensive sweep coverage (76 lengths, 13 VBS points)
 - **Design charts generator** for the 4 fundamental gm/ID plots
 - **Interactive tutorials** (Jupyter notebooks in English and Spanish)
 - **Portable & self-contained** - includes vendorized mosplot library
@@ -15,18 +15,31 @@ Analog IC design toolkit using the gm/ID methodology for the **IHP SG13G2 130nm 
 ### Prerequisites
 
 1. **Python 3.9+** with numpy, scipy, matplotlib
-2. **ngspice** (only if regenerating lookup tables)
-3. **IHP PDK** (only if regenerating lookup tables)
+2. **ngspice** installed and in PATH
+3. **IHP-Open-PDK** with PDK_ROOT environment variable set
 
 ### Installation
 
 ```bash
-git clone https://github.com/your-username/ihp-gmid-kit.git
+git clone https://github.com/Mauricio-xx/ihp-gmid-kit.git
 cd ihp-gmid-kit
 pip install -r requirements.txt
 ```
 
-### Using the Pre-generated Lookup Tables
+### Generate Lookup Tables
+
+LUT files are not included due to size (~200 MB). Generate them locally:
+
+```bash
+export PDK_ROOT=/path/to/IHP-Open-PDK
+
+cd src/ihp_gmid
+python lookup_generator.py --output-dir ../../data --n-process 4
+```
+
+Generation takes approximately 10-15 minutes.
+
+### Using the Lookup Tables
 
 ```python
 import sys
@@ -70,9 +83,7 @@ jupyter notebook tutorial_es.ipynb  # Spanish
 
 ```
 ihp-gmid-kit/
-├── data/                      # Pre-generated lookup tables
-│   ├── sg13_lv_nmos.npz
-│   └── sg13_lv_pmos.npz
+├── data/                      # Lookup tables (generated locally)
 ├── src/ihp_gmid/              # Main package
 │   ├── design_charts.py       # Design charts generator
 │   ├── lookup_generator.py    # Lookup table generator
@@ -88,8 +99,8 @@ ihp-gmid-kit/
 ## Generating Design Charts
 
 ```bash
-cd src/ihp_gmid
-python design_charts.py
+cd examples
+python generate_design_charts.py
 ```
 
 This generates the 4 fundamental gm/ID charts:
@@ -98,18 +109,16 @@ This generates the 4 fundamental gm/ID charts:
 - Current Density (ID/W) vs gm/ID
 - Transconductance Density (gm/W) vs gm/ID
 
-## Regenerating Lookup Tables
+## Lookup Table Coverage
 
-If you need to regenerate the tables (different corners, sweep ranges, etc.):
+| Parameter | Range | Step | Points |
+|-----------|-------|------|--------|
+| VGS | 0 to 1.5V | 10mV | 151 |
+| VDS | 0 to 1.5V | 50mV | 31 |
+| VBS | 0 to 1.2V | 100mV | 13 |
+| Length | 0.13 to 9.88 um | 130nm | 76 |
 
-```bash
-# Set PDK path
-export PDK_ROOT=/path/to/IHP-Open-PDK
-
-# Generate tables
-cd src/ihp_gmid
-python lookup_generator.py --output-dir ../../data --n-process 4
-```
+Saved parameters: id, gm, gds, vth, vdsat, cgg, cgs, cgd (enables fT calculation).
 
 ## IHP SG13G2 PDK Notes
 

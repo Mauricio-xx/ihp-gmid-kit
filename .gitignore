@@ -5,6 +5,9 @@ src/ihp_gmid/design_charts/
 # Include pre-generated design charts
 !examples/design_charts/*.png
 
+# Lookup tables (must be generated locally - too large for GitHub)
+data/*.npz
+
 # Python
 __pycache__/
 *.pyc

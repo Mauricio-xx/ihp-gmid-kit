@@ -1,38 +1,46 @@
 # Lookup Tables
 
-Pre-generated MOSFET characterization lookup tables for IHP SG13G2 130nm PDK.
+MOSFET characterization lookup tables for IHP SG13G2 130nm PDK.
 
-## Files
+**Note:** LUT files are not included in this repository due to size (~200 MB total). You must generate them locally using the provided scripts.
+
+## Generating Lookup Tables
+
+Requirements:
+- IHP-Open-PDK installed
+- ngspice in PATH
+- PDK_ROOT environment variable set
+
+```bash
+export PDK_ROOT=/path/to/IHP-Open-PDK
+
+cd src/ihp_gmid
+python lookup_generator.py --output-dir ../../data --n-process 4
+```
+
+Generation takes approximately 10-15 minutes with 4 parallel processes.
+
+## Output Files
 
 | File | Description | Size |
 |------|-------------|------|
-| `sg13_lv_nmos.npz` | Low-voltage NMOS characterization | ~3.5 MB |
-| `sg13_lv_pmos.npz` | Low-voltage PMOS characterization | ~4.0 MB |
+| `sg13_lv_nmos.npz` | Low-voltage NMOS characterization | ~97 MB |
+| `sg13_lv_pmos.npz` | Low-voltage PMOS characterization | ~102 MB |
 
 ## Sweep Parameters
 
-### NMOS
 | Parameter | Range | Step | Points |
 |-----------|-------|------|--------|
 | VGS | 0 to 1.5V | 10mV | 151 |
 | VDS | 0 to 1.5V | 50mV | 31 |
-| VBS | 0 to -1.2V | -300mV | 5 |
-| Length | 0.13, 0.15, 0.18, 0.25, 0.5, 1.0, 2.0 um | - | 7 |
+| VBS | 0 to 1.2V | 100mV | 13 |
+| Length | 0.13 to 9.88 um | 130nm | 76 |
 
-### PMOS
-| Parameter | Range | Step | Points |
-|-----------|-------|------|--------|
-| VGS | 0 to -1.5V | -10mV | 151 |
-| VDS | 0 to -1.5V | -50mV | 31 |
-| VBS | 0 to 1.2V | 300mV | 5 |
-| Length | 0.13, 0.15, 0.18, 0.25, 0.5, 1.0, 2.0 um | - | 7 |
+## Saved Parameters
 
-## Regenerating Tables
-
-If you need to regenerate the tables (e.g., for different corners or sweep ranges):
-
-```bash
-# Requires PDK_ROOT environment variable and ngspice
-export PDK_ROOT=/path/to/IHP-Open-PDK
-python src/ihp_gmid/lookup_generator.py --output-dir ./data
-```
+- id (drain current)
+- gm (transconductance)
+- gds (output conductance)
+- vth (threshold voltage)
+- vdsat (saturation voltage)
+- cgg, cgs, cgd (gate capacitances for fT calculation)

@@ -11,6 +11,13 @@ Device constraints (from PDK documentation):
 Model names:
 - NMOS: sg13_lv_nmos (subcircuit)
 - PMOS: sg13_lv_pmos (subcircuit)
+
+Sweep configuration:
+- 76 length values from 130nm to 9.88um (130nm steps)
+- VGS: 10mV resolution (finer than typical 100mV)
+- VDS: 50mV resolution
+- VBS: 100mV resolution (13 points)
+- Includes capacitances (cgg, cgs, cgd) for fT calculation
 """
 
 import sys
@@ -21,20 +28,23 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..',
 
 from mosplot.lookup_table_generator import TransistorSweep
 
+# Generate 76 length values from 130nm to 9.88um (130nm steps)
+LENGTH_VALUES = [130e-9 + i * 130e-9 for i in range(76)]
+
 # NMOS sweep configuration
 nmos_sweep = TransistorSweep(
     mos_type="nmos",
-    length=[0.13e-6, 0.15e-6, 0.18e-6, 0.25e-6, 0.5e-6, 1.0e-6, 2.0e-6],
+    length=LENGTH_VALUES,
     vgs=(0, 1.5, 0.01),      # 0V to 1.5V, 10mV steps -> 151 points
     vds=(0, 1.5, 0.05),      # 0V to 1.5V, 50mV steps -> 31 points
-    vbs=(0, -1.2, -0.3)      # 0V to -1.2V, -300mV steps -> 5 points
+    vbs=(0, -1.2, -0.1)      # 0V to -1.2V, 100mV steps -> 13 points
 )
 
 # PMOS sweep configuration
 pmos_sweep = TransistorSweep(
     mos_type="pmos",
-    length=[0.13e-6, 0.15e-6, 0.18e-6, 0.25e-6, 0.5e-6, 1.0e-6, 2.0e-6],
+    length=LENGTH_VALUES,
     vgs=(0, -1.5, -0.01),    # 0V to -1.5V, -10mV steps -> 151 points
     vds=(0, -1.5, -0.05),    # 0V to -1.5V, -50mV steps -> 31 points
-    vbs=(0, 1.2, 0.3)        # 0V to 1.2V, 300mV steps -> 5 points
+    vbs=(0, 1.2, 0.1)        # 0V to 1.2V, 100mV steps -> 13 points
 )
